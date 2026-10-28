@@ -1,0 +1,25 @@
+{
+  "name": "oostervelde-invoice-check",
+  "version": "1.0.0",
+  "description": "MCP server + Claude skill that checks contractor invoices against the Woonkring Oostervelde framework contract (Art. 4).",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "server": "tsx src/server.ts",
+    "review": "tsx src/cli.ts review",
+    "compare": "tsx src/cli.ts compare",
+    "all": "tsx src/cli.ts all",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}
