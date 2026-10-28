@@ -1,0 +1,318 @@
+Issue ID,Issue Type,Summary,Description,Epic Name,Epic Link,Priority,Story Points,Status,Labels,Sprint,Wave,Workstream,Blocked By
+EP-01,Epic,Foundations & dataset,"Repo, Dutch number/date handling, dataset loaders, translated contract.
+
+Business value: Everything downstream depends on correct Dutch parsing and a translated contract.
+Acceptance: Contract Art. 4 translated; money/date helpers tested; dataset loads.
+Wave W1",Foundations & dataset,,Highest,,Done,wave-1 epic-ep-01 phase-mvp p0,,W1,,
+EP-02,Epic,Invoice parsing (4 layouts),"Normalise Hoekstra, De Wit, Bosman and Jansen invoices into one schema.
+
+Business value: Without a clean schema no rule can be trusted.
+Acceptance: All 40 invoices parse; every parsed invoice reconciles with its own stated totals unless the invoice itself is wrong.
+Wave W1",Invoice parsing (4 layouts),,Highest,,Done,wave-1 epic-ep-02 phase-mvp p0,,W1,,
+EP-03,Epic,Contract rule engine,"One deterministic rule per Article 4 clause; findings with article, line, amount, evidence.
+
+Business value: Amounts must be correct to the cent; Sanne must be able to forward the reasoning unedited.
+Acceptance: Golden table for all 40 invoices passes; no false flags on clean invoices.
+Wave W2",Contract rule engine,,Highest,,Done,wave-2 epic-ep-03 phase-mvp p0,,W2,,
+EP-04,Epic,MCP server,"Small, clearly named tools over the dataset and engine.
+
+Business value: The skill needs tools, not prompts, for facts and maths.
+Acceptance: 11 tools callable over stdio by a real MCP client.
+Wave W3",MCP server,,Highest,,Done,wave-3 epic-ep-04 phase-mvp p0,,W3,,
+EP-05,Epic,Skill & Sanne-in-the-loop,"Skill that presents, asks Sanne, logs decisions and overrides; never sends.
+
+Business value: Sanne signs off every payment; trust is the product.
+Acceptance: Skill covers present → decide → log → draft → close; no send path exists.
+Wave W3",Skill & Sanne-in-the-loop,,Highest,,In Progress,wave-3 epic-ep-05 phase-mvp p0,,W3,,
+EP-06,Epic,"The run, comparison & drafts","Run all 40, total the dispute, compare with Sanne's 10, Dutch e-mail drafts.
+
+Business value: The assignment's measurable output.
+Acceptance: Review list, comparison and drafts regenerate with one command.
+Wave W3","The run, comparison & drafts",,High,,Done,wave-3 epic-ep-06 phase-mvp p1,,W3,,
+EP-07,Epic,Verification & submission,"Independent check, NOTES.md, README, video, submit.
+
+Business value: Explainability and honesty are scored.
+Acceptance: NOTES.md has the four headings; README runs in 10 minutes; video recorded; mail sent.
+Wave W4",Verification & submission,,High,,In Progress,wave-4 epic-ep-07 phase-mvp p1,,W4,,
+US-001,Story,Translate Article 4 and build a glossary,"As the builder I want the contract in English so I don't misread Dutch rules.
+
+Acceptance criteria:
+- [ ] Every Art. 4.1-4.10 clause translated
+- [ ] Glossary of invoice terms (spoed, meerwerk, voorrijkosten, ...)
+- [ ] Dutch text kept verbatim for quoting
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-01 · Feature F-01 · Wave W1 · WS-A · Sprint S1",,Foundations & dataset,Highest,3,Done,wave-1 ws-a sprint-1 epic-ep-01 phase-mvp p0,S1,W1,WS-A,
+US-002,Story,Scaffold TypeScript/vitest/tsx project,"As the builder I want a runnable repo in minutes.
+
+Acceptance criteria:
+- [ ] npm install && npm test works from clean checkout
+- [ ] Strict TypeScript
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-01 · Feature F-01 · Wave W1 · WS-A · Sprint S1",,Foundations & dataset,Highest,2,Done,wave-1 ws-a sprint-1 epic-ep-01 phase-mvp p0,S1,W1,WS-A,
+US-003,Story,Dutch money and date parsing,"As the builder I want 1.234,56 and 02/01/2026 parsed correctly.
+
+Acceptance criteria:
+- [ ] Money in integer cents, no floats
+- [ ] DD/MM, DD-MM, ISO and '5 januari 2026' all parse; impossible dates rejected
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-01 · Feature F-01 · Wave W1 · WS-A · Sprint S1",,Foundations & dataset,Highest,3,Done,wave-1 ws-a sprint-1 epic-ep-01 phase-mvp p0,S1,W1,WS-A,US-002
+US-004,Story,"Load price list, work orders, contract text, Sanne's verdicts","As the engine I want typed reference data.
+
+Acceptance criteria:
+- [ ] Quoted CSV fields handled
+- [ ] DATA_DIR override works
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-01 · Feature F-01 · Wave W1 · WS-A · Sprint S1",,Foundations & dataset,Highest,2,Done,wave-1 ws-a sprint-1 epic-ep-01 phase-mvp p0,S1,W1,WS-A,US-002
+US-005,Story,Hoekstra parser,"As Sanne I want Hoekstra invoices read correctly, including credit notes.
+
+Acceptance criteria:
+- [ ] Lines, units (incl. 'rol 25 m', 'post'), totals, VAT parsed
+- [ ] Credit note links to original invoice
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-02 · Feature F-02 · Wave W1 · WS-A · Sprint S1",,Invoice parsing (4 layouts),Highest,3,Done,wave-1 ws-a sprint-1 epic-ep-02 phase-mvp p0,S1,W1,WS-A,US-003
+US-006,Story,Bosman parser,"As Sanne I want Bosman invoices read correctly.
+
+Acceptance criteria:
+- [ ] Pipe layout parsed
+- [ ] ISO dates; meerwerk flagged
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-02 · Feature F-02 · Wave W1 · WS-A · Sprint S1",,Invoice parsing (4 layouts),Highest,2,Done,wave-1 ws-a sprint-1 epic-ep-02 phase-mvp p0,S1,W1,WS-A,US-003
+US-007,Story,Jansen parser (day-first dates),"As Sanne I want Jansen invoices read correctly.
+
+Acceptance criteria:
+- [ ] Two-line item layout parsed
+- [ ] 02/01/2026 = 2 January, not 1 February
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-02 · Feature F-02 · Wave W1 · WS-A · Sprint S1",,Invoice parsing (4 layouts),Highest,3,Done,wave-1 ws-a sprint-1 epic-ep-02 phase-mvp p0,S1,W1,WS-A,US-003
+US-008,Story,De Wit parser (letter style),"As Sanne I want De Wit's letter-style invoices read correctly.
+
+Acceptance criteria:
+- [ ] Dutch month names
+- [ ] VAT rate per line
+- [ ] Meerwerk line containing an extra colon
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-02 · Feature F-02 · Wave W1 · WS-A · Sprint S1",,Invoice parsing (4 layouts),Highest,5,Done,wave-1 ws-a sprint-1 epic-ep-02 phase-mvp p0,S1,W1,WS-A,US-003
+US-009,Story,Parser self-check against stated totals,"As the builder I want parser errors separated from invoice errors.
+
+Acceptance criteria:
+- [ ] Lines sum, VAT and total checked per invoice
+- [ ] Only 2026-0052 and DW26-016 have real arithmetic errors
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-02 · Feature F-02 · Wave W1 · WS-A · Sprint S1",,Invoice parsing (4 layouts),Highest,2,Done,wave-1 ws-a sprint-1 epic-ep-02 phase-mvp p0,S1,W1,WS-A,"US-005, US-006, US-007, US-008"
+US-010,Story,"Price and indexation by execution date, with unit conversion","As Sanne I want prices checked at the right year's price.
+
+Acceptance criteria:
+- [ ] Work executed before 2026-01-01 uses 2025 price; else +3.2 % rounded per unit
+- [ ] rol 25 m vs m compared per list unit
+- [ ] Invoice date never decides the price year
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-03 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,5,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,"US-003, US-004, US-009"
+US-011,Story,Call-out fee rule (Art. 4.3),"As Sanne I want call-out fees only on spoed and once.
+
+Acceptance criteria:
+- [ ] Regular work: whole fee disputed
+- [ ] Spoed: second fee disputed
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-04 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,3,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,US-010
+US-012,Story,Hours rule with MU approvals (Art. 4.4),"As Sanne I want hours above the maximum caught.
+
+Acceptance criteria:
+- [ ] Max + approved MU hours
+- [ ] Excess valued at contract rate
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-04 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,3,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,US-010
+US-013,Story,Meerwerk rule with GA approvals (Art. 4.5),"As Sanne I want extra work handled exactly.
+
+Acceptance criteria:
+- [ ] <= 250 free
+- [ ] Above 250 without GA: nothing paid (not even 250)
+- [ ] With GA: at most approved amount
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-04 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,5,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,US-010
+US-014,Story,VAT 9 % / 21 % rule (Art. 4.6),"As Sanne I want VAT checked per line, not by counting VAT lines.
+
+Acceptance criteria:
+- [ ] 9 % only for W01/W04 on homes older than two years
+- [ ] Overcharged VAT disputed; undercharged VAT held for Sanne
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-05 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,5,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,US-010
+US-015,Story,"Off-list items, unknown work orders, supplier mismatch (Art. 4.7, 4.9)","As Sanne I want unknown orders on hold.
+
+Acceptance criteria:
+- [ ] Unknown WO = hold, nothing else claimed
+- [ ] Off-list item flagged as judgment
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-04 · Wave W2 · WS-B · Sprint S2",,Contract rule engine,Highest,3,Done,wave-2 ws-b sprint-2 epic-ep-03 phase-mvp p0,S2,W2,WS-B,US-004
+US-016,Story,Duplicates and credit-note netting (Art. 4.8),"As Sanne I want cross-invoice problems found.
+
+Acceptance criteria:
+- [ ] Identical second invoice for a WO disputed in full
+- [ ] Credit note netted; not disputed twice
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-06 · Wave W3 · WS-B · Sprint S3",,Contract rule engine,Highest,5,Done,wave-3 ws-b sprint-3 epic-ep-03 phase-mvp p0,S3,W3,WS-B,"US-011, US-012"
+US-017,Story,Invoice arithmetic checks,"As Sanne I want the contractor's own sums verified.
+
+Acceptance criteria:
+- [ ] Line = qty x price
+- [ ] Total = subtotal + VAT
+- [ ] Overstated totals shown in their own column
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-07 · Wave W3 · WS-B · Sprint S3",,Contract rule engine,Highest,3,Done,wave-3 ws-b sprint-3 epic-ep-03 phase-mvp p0,S3,W3,WS-B,US-009
+US-018,Story,Exact VAT reclaim per VAT bucket,"As Sanne I want VAT correct to the cent.
+
+Acceptance criteria:
+- [ ] Reclaim = billed VAT - VAT on accepted amounts per rate
+- [ ] Per-finding VAT reconciles to invoice-level figure
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-07 · Wave W3 · WS-B · Sprint S3",,Contract rule engine,Highest,3,Done,wave-3 ws-b sprint-3 epic-ep-03 phase-mvp p0,S3,W3,WS-B,US-014
+US-019,Story,Verdict logic and needs-Sanne flag,"As Sanne I want to see what is uncertain first.
+
+Acceptance criteria:
+- [ ] approve / dispute / hold rules documented
+- [ ] judgment findings flagged
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-03 · Feature F-07 · Wave W3 · WS-B · Sprint S3",,Contract rule engine,Highest,3,Done,wave-3 ws-b sprint-3 epic-ep-03 phase-mvp p0,S3,W3,WS-B,"US-016, US-017, US-018"
+US-020,Story,MCP server skeleton and read tools,"As Claude I want tools for facts.
+
+Acceptance criteria:
+- [ ] list_invoices, get_invoice, get_price, get_work_order, get_contract_rule
+- [ ] Unknown WO returns an error mentioning Art. 4.9
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-04 · Feature F-08 · Wave W3 · WS-C · Sprint S3",,MCP server,Highest,3,Done,wave-3 ws-c sprint-3 epic-ep-04 phase-mvp p0,S3,W3,WS-C,"US-004, US-009"
+US-021,Story,"check_invoice, find_duplicates, review_all","As Claude I want the engine behind tools.
+
+Acceptance criteria:
+- [ ] Findings carry article, line, amount, evidence, Dutch sentence
+- [ ] Errors are clean, not crashes
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-04 · Feature F-08 · Wave W3 · WS-C · Sprint S3",,MCP server,Highest,3,Done,wave-3 ws-c sprint-3 epic-ep-04 phase-mvp p0,S3,W3,WS-C,"US-019, US-020"
+US-022,Story,draft_dispute_email (Dutch draft),"As Sanne I want the e-mail written for me.
+
+Acceptance criteria:
+- [ ] Dutch; cites article and amount; 10-day and 30-day wording
+- [ ] Marked CONCEPT; nothing is sent
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-04 · Feature F-08 · Wave W3 · WS-C · Sprint S3",,MCP server,Highest,3,Done,wave-3 ws-c sprint-3 epic-ep-04 phase-mvp p0,S3,W3,WS-C,US-021
+US-023,Story,Decision log tools,"As Sanne I want my decisions and overrides remembered.
+
+Acceptance criteria:
+- [ ] Override requires her reason
+- [ ] Log is append-only JSONL
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-04 · Feature F-08 · Wave W3 · WS-C · Sprint S3",,MCP server,Highest,3,Done,wave-3 ws-c sprint-3 epic-ep-04 phase-mvp p0,S3,W3,WS-C,US-021
+US-024,Story,Server test with a real MCP client over stdio,"As the builder I want proof the server works.
+
+Acceptance criteria:
+- [ ] Tools list, get_price, check_invoice, decisions tested via SDK client
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-04 · Feature F-08 · Wave W3 · WS-C · Sprint S3",,MCP server,Highest,3,Done,wave-3 ws-c sprint-3 epic-ep-04 phase-mvp p0,S3,W3,WS-C,US-023
+US-025,Story,"Skill: present, decide, log, draft, close","As Sanne I want Claude to keep me in charge.
+
+Acceptance criteria:
+- [ ] Judgment items first
+- [ ] Never sends or contacts anyone
+- [ ] Overrides logged with reason
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-05 · Feature F-09 · Wave W4 · WS-C · Sprint S4",,Skill & Sanne-in-the-loop,Highest,3,Done,wave-4 ws-c sprint-4 epic-ep-05 phase-mvp p0,S4,W4,WS-C,"US-021, US-023"
+US-026,Story,Run the skill live in Claude Code/Desktop as Sanne,"As the builder I want to see it work end to end.
+
+Acceptance criteria:
+- [ ] Skill triggers on a natural request
+- [ ] All tools reachable
+- [ ] One override logged
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-05 · Feature F-09 · Wave W4 · WS-C · Sprint S4",,Skill & Sanne-in-the-loop,Highest,3,Ready,wave-4 ws-c sprint-4 epic-ep-05 phase-mvp p0,S4,W4,WS-C,US-025
+US-027,Story,Override-to-rule-update proposal loop,"As the team I want overrides to improve the rules.
+
+Acceptance criteria:
+- [ ] Skill proposes a change; a person edits code
+- [ ] No automatic rule changes
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-05 · Feature F-09 · Wave W4 · WS-C · Sprint S4",,Skill & Sanne-in-the-loop,Medium,2,Draft,wave-4 ws-c sprint-4 epic-ep-05 phase-mvp p2,S4,W4,WS-C,US-025
+US-028,Story,Run all 40 and write the review list,"As Sanne I want one list with a total.
+
+Acceptance criteria:
+- [ ] review-list.md/.csv/.json generated by one command
+- [ ] Totals: approve/dispute/hold, excl./incl. VAT
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-06 · Feature F-10 · Wave W3 · WS-D · Sprint S3",,"The run, comparison & drafts",Highest,3,Done,wave-3 ws-d sprint-3 epic-ep-06 phase-mvp p0,S3,W3,WS-D,US-019
+US-029,Story,Comparison with Sanne's 10,"As the assessor I want every difference explained.
+
+Acceptance criteria:
+- [ ] Table + commentary per invoice
+- [ ] Contract-based, not assuming Sanne is right
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-06 · Feature F-10 · Wave W4 · WS-D · Sprint S4",,"The run, comparison & drafts",Highest,3,Done,wave-4 ws-d sprint-4 epic-ep-06 phase-mvp p0,S4,W4,WS-D,US-028
+US-030,Story,Golden-table regression tests,"As the builder I want to know when a number changes.
+
+Acceptance criteria:
+- [ ] All 40 invoices asserted
+- [ ] Rule-level tests with hand-computed values
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-06 · Feature F-10 · Wave W4 · WS-D · Sprint S4",,"The run, comparison & drafts",Highest,3,Done,wave-4 ws-d sprint-4 epic-ep-06 phase-mvp p0,S4,W4,WS-D,US-028
+US-031,Story,Independent blind audit and reconcile,"As the builder I want a second opinion that did not see my code.
+
+Acceptance criteria:
+- [ ] Separate agent audits the 40 invoices blind
+- [ ] Every difference resolved or documented
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-07 · Feature F-11 · Wave W4 · WS-D · Sprint S4",,Verification & submission,Highest,3,Done,wave-4 ws-d sprint-4 epic-ep-07 phase-mvp p0,S4,W4,WS-D,US-030
+US-032,Story,NOTES.md (four headings),"As the assessor I want decisions, handover, changes and gaps.
+
+Acceptance criteria:
+- [ ] Decisions and translations; Where Sanne decides; What changed; What isn't finished
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-07 · Feature F-11 · Wave W4 · WS-D · Sprint S4",,Verification & submission,Highest,3,Done,wave-4 ws-d sprint-4 epic-ep-07 phase-mvp p0,S4,W4,WS-D,US-031
+US-033,Story,README runnable in 10 minutes,"As the assessor I want to run it quickly.
+
+Acceptance criteria:
+- [ ] npm install, npm test, npm run all documented with expected output
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-07 · Feature F-11 · Wave W4 · WS-D · Sprint S4",,Verification & submission,Highest,2,Done,wave-4 ws-d sprint-4 epic-ep-07 phase-mvp p0,S4,W4,WS-D,US-028
+US-034,Story,Record the <=5-minute video,"As the assessor I want to see it running.
+
+Acceptance criteria:
+- [ ] Skill running; one hard case; one thing it still gets wrong
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-07 · Feature F-11 · Wave W4 · WS-D · Sprint S4",,Verification & submission,Highest,3,Ready,wave-4 ws-d sprint-4 epic-ep-07 phase-mvp p0,S4,W4,WS-D,"US-026, US-032"
+US-035,Story,Submit to nigel@mstr.nl and jason@mstr.nl,"As the builder I want to deliver within 48 hours.
+
+Acceptance criteria:
+- [ ] Zip/GitHub link + video link in one mail
+
+Done gates: tests green, no regressions, reviewed PR, docs updated.
+Mapping: Epic EP-07 · Feature F-11 · Wave W4 · WS-D · Sprint S4",,Verification & submission,Highest,1,Draft,wave-4 ws-d sprint-4 epic-ep-07 phase-mvp p0,S4,W4,WS-D,US-034
