@@ -83,13 +83,17 @@ Why this shape: Sanne said she will not approve forty invoices on a computer's w
 6. **A wrong test, not a wrong engine.** A test sorted numbers as strings (`[1850, 561]`). Fixed the test.
 7. **What I did not do:** let the model read invoices and do the maths in the prompt. I judged that unfit for "correct to the cent" and for evidence Sanne can forward, so the model only presents, asks and logs.
 8. **Independent check (see §4 for the outcome):** a separate agent audited the 40 invoices **blind** (it was told not to read my code) and I compared its table with mine.
+9. **Windows checkout parsed only 1 contract article.** On a Windows clone (git `autocrlf`) the files had CRLF line endings and the article regex matched only Art. 4.1. Fixed by normalising line endings when reading text (`readText` in `data.ts`) and adding `.gitattributes` (`eol=lf`). A fully CRLF copy of the dataset now gives identical totals.
+10. **English translation added to the contract file.** An English version of Art. 4 now sits below a `---` line in `data/contract-excerpt.md`. The parser reads only the Dutch part above that line, so the verbatim Dutch quotes do not change; a test checks that 4.10's quote ends at its last Dutch sentence.
+11. **First live run of the skill** in Claude Code (`/oostervelde-invoice-review`): it called `list_invoices`, `find_duplicates` and `review_all`, and presented the totals, then the 4 ⚠ judgment items first, then disputes and approvals, matching `output/review-list.md`. Only after that live run did I notice the text issue for DW26-011 listed in §4.
 
 ---
 
 ## 4. What isn't finished
 
 **Honest gaps**
-- **The skill has not yet been run live in Claude Desktop/Code by me.** The MCP server *is* tested end to end with a real MCP client over stdio (`test/server.test.ts`), and `npm run review` calls the same code as `review_all`, so the review list is what the skill gets. But the `SKILL.md` workflow (present → ask → log → draft → close) has not been exercised with a live Claude, and a few rounds of wording changes will probably be needed. **Next step #1** before the video.
+- **The skill has been run live only up to the presenting step.** In Claude Code it produced the review in the right order (totals → ⚠ judgment → disputes → approvals), with the same numbers as `output/review-list.md`. The rest of the workflow (Sanne decides → `record_decision` → drafts → close with proposed rule changes) has not yet been exercised live; `record_decision` and `list_decisions` are covered by the stdio test only.
+- **1-cent text mismatch on DW26-011.** The amount field says € 60,68 (the invoice-level VAT, see §3 item 4), but the finding's reason text still shows the per-line figure € 60,69. The amount and totals are right; the sentence should be generated from the reconciled amount.
 - **No received-date** in the data: the 10-working-day (4.10) deadline is counted from the invoice date, with no Dutch holiday calendar.
 - **Approvals outside the export** (e.g. for the Vogelwering item) cannot be seen; D8 is therefore ⚠.
 - **Hours/meerwerk aggregation** only sees invoices in this batch; earlier months are not available.
@@ -99,7 +103,7 @@ Why this shape: Sanne said she will not approve forty invoices on a computer's w
 - **Amount ambiguities:** D3 (8 cents), D7 (VAT undercharge: hold vs dispute), D8 (off-list approval). I would ask MSTR about these three.
 
 **What I would do next**
-1. Run the skill live as Sanne, fix the wording, then record the video (one hard case: DW26-009 where Sanne's dispute is wrong because GA-0412 exists; one thing it still gets wrong or can't know: the off-list approval / VAT-undercharge policy).
+1. Finish the live run as Sanne (log decisions incl. one override, draft an e-mail, close), fix the wording and the DW26-011 text, then record the video (one hard case: DW26-009 where Sanne's dispute is wrong because GA-0412 exists; one thing it still gets wrong or can't know: the off-list approval / VAT-undercharge policy).
 2. Ask MSTR the three questions above and update the golden table if their key differs.
 3. Add the received-date and a working-day calendar.
 4. Learn from overrides: turn repeated overrides into *proposed* rule changes, reviewed by a person.
