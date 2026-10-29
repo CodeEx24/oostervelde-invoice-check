@@ -42,8 +42,11 @@ export function listInvoiceFiles(dir = DATA_DIR): string[] {
   return readdirSync(join(dir, "invoices")).filter((f) => f.endsWith(".txt")).sort();
 }
 
+/** Read a text file with Windows (CRLF) line endings normalised to LF, so a Windows checkout parses the same. */
+const readText = (path: string): string => readFileSync(path, "utf8").replace(/\r\n?/g, "\n");
+
 export function readInvoiceText(file: string, dir = DATA_DIR): string {
-  return readFileSync(join(dir, "invoices", file), "utf8");
+  return readText(join(dir, "invoices", file));
 }
 
 export interface SanneVerdict { file: string; invoiceNo: string; supplier: string; verdict: string; note: string }
@@ -56,5 +59,5 @@ export function loadSanneVerdicts(dir = DATA_DIR): SanneVerdict[] {
 }
 
 export function loadContractText(dir = DATA_DIR): string {
-  return readFileSync(join(dir, "contract-excerpt.md"), "utf8");
+  return readText(join(dir, "contract-excerpt.md"));
 }

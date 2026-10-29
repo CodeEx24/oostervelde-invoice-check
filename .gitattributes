@@ -1,0 +1,3 @@
+# Keep text files LF in every checkout (the parsers and golden tests expect it).
+* text=auto eol=lf
+*.xlsx binary
