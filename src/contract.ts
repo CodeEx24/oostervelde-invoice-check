@@ -26,7 +26,8 @@ let cache: Record<string, Article> | null = null;
 
 export function loadArticles(dir?: string): Record<string, Article> {
   if (cache && !dir) return cache;
-  const text = loadContractText(dir);
+  // Only the Dutch part is the contract; an English translation may follow after a "---" line.
+  const text = loadContractText(dir).split(/\n-{3,}\s*\n/)[0];
   const out: Record<string, Article> = {};
   const re = /\*\*(4\.\d+)\s+([^*]+?)\.\*\*\s+([\s\S]*?)(?=\n\n\*\*4\.|\n*$)/g;
   let m: RegExpExecArray | null;

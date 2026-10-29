@@ -39,6 +39,13 @@ describe("MCP server over stdio", () => {
     const a = JSON.parse((await call("get_contract_rule", { query: "meerwerk" })).text)[0];
     expect(a.id).toBe("4.5"); expect(a.textNl).toContain("niet vergoed"); expect(a.textEn).toContain("NOT reimbursed");
   });
+  it("Dutch quotes stop before the English translation at the bottom of the contract file", async () => {
+    const all = JSON.parse((await call("get_contract_rule", {})).text) as { id: string; textNl: string }[];
+    expect(all).toHaveLength(10);
+    const last = all.find((a) => a.id === "4.10")!;
+    expect(last.textNl).toMatch(/Het onbetwiste deel wordt wel betaald\.$/);
+    for (const a of all) expect(a.textNl).not.toMatch(/English translation|Payment|reimbursed/);
+  });
   it("check_invoice returns a verdict with evidence", async () => {
     const v = JSON.parse((await call("check_invoice", { invoice: "2026-0044" })).text);
     expect(v.verdict).toBe("dispute"); expect(v.disputeExcl).toBe("€ 120,74"); expect(v.findings[0].article).toBe("4.4");
