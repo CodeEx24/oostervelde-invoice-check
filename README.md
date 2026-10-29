@@ -10,7 +10,7 @@ Prerequisites: Node.js 20+ (tested on 22).
 
 ```bash
 npm install
-npm test            # 90 tests: parsing, every rule, golden results for all 40 invoices, MCP server over stdio
+npm test            # 91 tests: parsing, every rule, golden results for all 40 invoices, MCP server over stdio
 npm run all         # writes output/review-list.{md,csv,json}, output/drafts/*.nl.txt, output/comparison-with-sanne.md
 ```
 
@@ -23,6 +23,8 @@ Comparison: 8/10 verdicts equal → output/comparison-with-sanne.md
 ```
 
 Use another copy of the dataset: `DATA_DIR=/path/to/unzipped-dataset npm run all` (needs `invoices/`, `price-agreement-2025.csv`, `work-orders-export.csv`, `contract-excerpt.md`, optionally `reference/sanne-verdicts.csv`).
+
+**Checking a new month?** See [CLIENT-GUIDE.md](CLIENT-GUIDE.md): folder layout, the commands, how to point the server and skill at the new data, and the current limits.
 
 ## How to use the MCP server and the skill
 

@@ -2,3 +2,4 @@ node_modules
 dist
 output/decisions.jsonl
 .claude/settings.local.json
+months/
